@@ -1,7 +1,7 @@
 #! <?xml version="1.0" encoding="UTF-8" ?>
 #! <WORKSPACE
 #    Command-line to run this workspace:
-#        "C:\Program Files\FME2018_x64\fme.exe" C:\Users\D_GUIG~1\AppData\Local\Temp\wb_publish_1525419463506_14244/FormatImport.fmw
+#        "C:\Program Files\FME2018_x64\fme.exe" C:\Users\D_GUIG~1\AppData\Local\Temp\wb_publish_1525419522989_14244/FormatImport.fmw
 #              --Dossier_opt ""
 #    
 #!   ATTR_TYPE_ENCODING="SDF"
@@ -27,7 +27,7 @@
 #!   HISTORY=""
 #!   IGNORE_READER_FAILURE="No"
 #!   LAST_SAVE_BUILD="FME(R) 2018.0.0.0 (20180308 - Build 18284 - WIN64)"
-#!   LAST_SAVE_DATE="2018-05-04T09:37:43"
+#!   LAST_SAVE_DATE="2018-05-04T09:38:42"
 #!   LOG_FILE=""
 #!   LOG_MAX_RECORDED_FEATURES="200"
 #!   MARKDOWN_DESCRIPTION=""
@@ -1360,7 +1360,7 @@ MACRO $(ZipArchiver_WORKSPACE_NAME)_ZIP_PATH C:<backslash>Users<backslash>d_guig
 MACRO $(ZipArchiver_WORKSPACE_NAME)_MODE REMOVE
 DEFAULT_MACRO ZipArchiver_WORKSPACE_NAME ""
 INCLUDE [puts {MACRO WB_OLD_CONTEXT_$(ZipArchiver_WORKSPACE_NAME) $(WB_CURRENT_CONTEXT)};          puts {MACRO WB_CURRENT_CONTEXT $(ZipArchiver_WORKSPACE_NAME)}]
-FACTORY_DEF * TeeFactory   FACTORY_NAME "$(ZipArchiver_WORKSPACE_NAME)_Input1525419463 Input Splitter"   INPUT FEATURE_TYPE "$(ZipArchiver_WORKSPACE_NAME)_Input"   OUTPUT FEATURE_TYPE "$(ZipArchiver_WORKSPACE_NAME)_Input"
+FACTORY_DEF * TeeFactory   FACTORY_NAME "$(ZipArchiver_WORKSPACE_NAME)_Input1525419523 Input Splitter"   INPUT FEATURE_TYPE "$(ZipArchiver_WORKSPACE_NAME)_Input"   OUTPUT FEATURE_TYPE "$(ZipArchiver_WORKSPACE_NAME)_Input"
 # -------------------------------------------------------------------------
 
 Tcl2 proc $(ZipArchiver_WORKSPACE_NAME)_ParameterFetcher_doFetch {} {    foreach {name val} {"__ziparchiver.filepath {$($(ZipArchiver_WORKSPACE_NAME)_FILE_PATH)} __ziparchiver.zippath {$($(ZipArchiver_WORKSPACE_NAME)_ZIP_PATH)} __ziparchiver.mode {$($(ZipArchiver_WORKSPACE_NAME)_MODE)}"} {         if { [string match {*<at>*} $val] == 1 } {             set val [FME_Execute EvaluateExpression {STRING} $val {$(ZipArchiver_WORKSPACE_NAME)_ParameterFetcher}];         } elseif {[string match {*FME_CONDITIONAL*} $val] == 1} {             set val [FME_Execute EvaluateExpression {STRING} $val {$(ZipArchiver_WORKSPACE_NAME)_ParameterFetcher}];         } else {             set val [FME_DecodeTextOrAttr $val];         };       FME_SetAttribute [FME_DecodeText $name] $val    } }
@@ -1390,9 +1390,9 @@ FACTORY_DEF * TeeFactory    FACTORY_NAME $(ZipArchiver_WORKSPACE_NAME)_Attribute
 
 # -------------------------------------------------------------------------
 
-INCLUDE [    set macroLine "MACRO $(ZipArchiver_WORKSPACE_NAME)_AttributeKeeper_7ea26747_bad4_43a0_bb77_8e069133da2f2_LIST_EXP ";    foreach attr [split ""] {       set attr [FME_DecodeText $attr];       set attr [regsub "{}$" $attr "{}.*"];       set attr [regsub -all "{}" $attr "\\{\[0-9\]+\\}"];       append macroLine ",^$attr$";    };    puts $macroLine; ]
+INCLUDE [    set macroLine "MACRO $(ZipArchiver_WORKSPACE_NAME)_AttributeKeeper_7ea26747_bad4_43a0_bb77_8e069133da2f3_LIST_EXP ";    foreach attr [split ""] {       set attr [FME_DecodeText $attr];       set attr [regsub "{}$" $attr "{}.*"];       set attr [regsub -all "{}" $attr "\\{\[0-9\]+\\}"];       append macroLine ",^$attr$";    };    puts $macroLine; ]
 
-FACTORY_DEF {*} TeeFactory    FACTORY_NAME $(ZipArchiver_WORKSPACE_NAME)_AttributeKeeper    INPUT  FEATURE_TYPE "$(ZipArchiver_WORKSPACE_NAME)_AttributeExposer_OUTPUT"    OUTPUT { FEATURE_TYPE "$(ZipArchiver_WORKSPACE_NAME)_AttributeKeeper_OUTPUT"        @KeepAttributes(fme_encoded,Archive<space>Name,Comment,Result,Target<space>File,Zip<space>File,fme_pcre_match,"^fme_$($(ZipArchiver_WORKSPACE_NAME)_AttributeKeeper_7ea26747_bad4_43a0_bb77_8e069133da2f2_LIST_EXP)")         }
+FACTORY_DEF {*} TeeFactory    FACTORY_NAME $(ZipArchiver_WORKSPACE_NAME)_AttributeKeeper    INPUT  FEATURE_TYPE "$(ZipArchiver_WORKSPACE_NAME)_AttributeExposer_OUTPUT"    OUTPUT { FEATURE_TYPE "$(ZipArchiver_WORKSPACE_NAME)_AttributeKeeper_OUTPUT"        @KeepAttributes(fme_encoded,Archive<space>Name,Comment,Result,Target<space>File,Zip<space>File,fme_pcre_match,"^fme_$($(ZipArchiver_WORKSPACE_NAME)_AttributeKeeper_7ea26747_bad4_43a0_bb77_8e069133da2f3_LIST_EXP)")         }
 
 # -------------------------------------------------------------------------
 Lookup $(ZipArchiver_WORKSPACE_NAME)_AttributeFilter_AttributeFilterLut   success ok   failure ok   terminate ok   "" notok   ENCODED
@@ -1419,9 +1419,9 @@ FACTORY_DEF * TeeFactory   FACTORY_NAME "$(ZipArchiver_WORKSPACE_NAME)_Attribute
 DEFAULT_MACRO _WB_BYPASS_TERMINATION No
 FACTORY_DEF * TestFactory    FACTORY_NAME $(ZipArchiver_WORKSPACE_NAME)_Terminator    INPUT  FEATURE_TYPE "$(ZipArchiver_WORKSPACE_NAME)_AttributeFilter_terminate"    TEST "$(_WB_BYPASS_TERMINATION)" == Yes    OUTPUT PASSED FEATURE_TYPE __WB_BYPASS_TERMINATOR__       @SupplyAttributes(_wb_termination_feature_type,@FeatureType())       @SupplyAttributes(ENCODED,_wb_termination_message,"@EvaluateExpression(FDIV,STRING_ENCODED,<at>Value<openparen>Comment<closeparen>,$(ZipArchiver_WORKSPACE_NAME)_Terminator)")       @SupplyAttributes(_wb_termination_xformer,"$(ZipArchiver_WORKSPACE_NAME)_Terminator")       @SupplyAttributes(_wb_termination_feature,Yes)    OUTPUT FAILED FEATURE_TYPE * @Abort(ENCODED,"@EvaluateExpression(FDIV,STRING_ENCODED,<at>Value<openparen>Comment<closeparen>,$(ZipArchiver_WORKSPACE_NAME)_Terminator)")
 
-FACTORY_DEF * TeeFactory   FACTORY_NAME "$(ZipArchiver_WORKSPACE_NAME)_Output1525419463 Output Collector"   INPUT FEATURE_TYPE "$(ZipArchiver_WORKSPACE_NAME)_Tester_PASSED"   OUTPUT FEATURE_TYPE "$(ZipArchiver_WORKSPACE_NAME)_Output" @RemoveAttributes(__ziparchiver.filepath,__ziparchiver.zippath,__ziparchiver.mode,__ziparchiver.result)
-FACTORY_DEF * TeeFactory   FACTORY_NAME "$(ZipArchiver_WORKSPACE_NAME)_LogSuccess1525419463 Output Collector"   INPUT FEATURE_TYPE "$(ZipArchiver_WORKSPACE_NAME)_AttributeFilter_success"   OUTPUT FEATURE_TYPE "$(ZipArchiver_WORKSPACE_NAME)_LogSuccess"
-FACTORY_DEF * TeeFactory   FACTORY_NAME "$(ZipArchiver_WORKSPACE_NAME)_LogFailure1525419463 Output Collector"   INPUT FEATURE_TYPE "$(ZipArchiver_WORKSPACE_NAME)_AttributeFilter_failure"   OUTPUT FEATURE_TYPE "$(ZipArchiver_WORKSPACE_NAME)_LogFailure"
+FACTORY_DEF * TeeFactory   FACTORY_NAME "$(ZipArchiver_WORKSPACE_NAME)_Output1525419523 Output Collector"   INPUT FEATURE_TYPE "$(ZipArchiver_WORKSPACE_NAME)_Tester_PASSED"   OUTPUT FEATURE_TYPE "$(ZipArchiver_WORKSPACE_NAME)_Output" @RemoveAttributes(__ziparchiver.filepath,__ziparchiver.zippath,__ziparchiver.mode,__ziparchiver.result)
+FACTORY_DEF * TeeFactory   FACTORY_NAME "$(ZipArchiver_WORKSPACE_NAME)_LogSuccess1525419523 Output Collector"   INPUT FEATURE_TYPE "$(ZipArchiver_WORKSPACE_NAME)_AttributeFilter_success"   OUTPUT FEATURE_TYPE "$(ZipArchiver_WORKSPACE_NAME)_LogSuccess"
+FACTORY_DEF * TeeFactory   FACTORY_NAME "$(ZipArchiver_WORKSPACE_NAME)_LogFailure1525419523 Output Collector"   INPUT FEATURE_TYPE "$(ZipArchiver_WORKSPACE_NAME)_AttributeFilter_failure"   OUTPUT FEATURE_TYPE "$(ZipArchiver_WORKSPACE_NAME)_LogFailure"
 INCLUDE [puts {MACRO WB_CURRENT_CONTEXT $(WB_OLD_CONTEXT_$(ZipArchiver_WORKSPACE_NAME))}]
 FACTORY_DEF * TeeFactory   FACTORY_NAME "ZipArchiver Output Output Renamer/Nuker"   INPUT FEATURE_TYPE ZipArchiver_Output
 FACTORY_DEF * TeeFactory   FACTORY_NAME "ZipArchiver LogSuccess Output Renamer/Nuker"   INPUT FEATURE_TYPE ZipArchiver_LogSuccess
